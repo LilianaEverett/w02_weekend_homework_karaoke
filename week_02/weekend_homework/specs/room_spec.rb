@@ -11,12 +11,12 @@ class TestRoom < MiniTest::Test
     @song1 = Song.new('Living on a Prayer','Bon Jovi')
     @song2 = Song.new('Bohemian Rhapsody','Queen')
     @song3 = Song.new('Free Fallin', 'Tom Petty')
-    @room_rock = Room.new('Rock', 4)
-    @guest1 = Guest.new('Liliana', @song1)
-    @guest2 = Guest.new('Anna', @song2)
-    @guest3 = Guest.new('George', @song3)
-    @guest4 = Guest.new('Matt', @song1)
-    @guest5 = Guest.new('John', @song2)
+    @room_rock = Room.new('Rock', 4, 20)
+    @guest1 = Guest.new('Liliana', @song1, 100)
+    @guest2 = Guest.new('Anna', @song2, 200)
+    @guest3 = Guest.new('George', @song3, 300)
+    @guest4 = Guest.new('Matt', @song1, 400)
+    @guest5 = Guest.new('John', @song2, 500)
 
   end
 
@@ -26,6 +26,10 @@ class TestRoom < MiniTest::Test
 
   def test_get_maximum_capacity
     assert_equal(4, @room_rock.guests_limit())
+  end
+
+  def test_get_fee_amount
+    assert_equal(20, @room_rock.fee())
   end
 
   def test_get_playlist

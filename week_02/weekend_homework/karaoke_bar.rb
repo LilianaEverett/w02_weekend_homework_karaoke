@@ -6,28 +6,21 @@ attr_accessor :name, :till, :rooms, :group
   def initialize(name, till, rooms)
     @name = name
     @till = till
-    @rooms = []
+    @rooms = rooms
   end
 
   def add_money(amount)
     @till += amount
   end
 
-  def add_group_to_room(room, group)
-    if @rooms.include?(room)
-      room.add_guest(group)
+  def check_in(room, guest, amount)
+    if @rooms.include?(room) || guest.wallet >= room.fee
+      room.add_guest(guest)
     end
-    return room.count
+    add_money(amount)
+    guest.pay(amount)
   end
 
-  # def group_count
-  #   @group.count
-  # end
-
-
-  # def room_capacity(group)
-  #   room >= @rooms.group_number(group)
-  # end
 
 
 end

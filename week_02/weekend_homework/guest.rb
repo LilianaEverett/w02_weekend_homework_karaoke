@@ -8,8 +8,12 @@ attr_reader :name, :fav_songs, :wallet
     @wallet = wallet
   end
 
-def pay(amount)
-  @wallet - amount
-end
+  def pay(amount)
+    if @wallet >= amount
+      @wallet -= amount
+    end
+  end
+
+
 
 end

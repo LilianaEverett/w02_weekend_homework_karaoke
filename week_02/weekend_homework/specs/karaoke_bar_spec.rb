@@ -17,17 +17,16 @@ class TestKaraokeBar < MiniTest::Test
     @song5 = Song.new('Push', 'Matchbox Twenty')
     @song6 = Song.new('Treasure', 'Bruno Mars')
 
-    @room_rock = Room.new('Rock', 20),
-    @room_pop = Room.new('Pop', 5)
+    @room_rock = Room.new('Rock', 20, 20),
+    @room_pop = Room.new('Pop', 5, 20)
 
-    @group_rock =[
-      @guest1 = Guest.new('Liliana', @song1),
-      @guest2 = Guest.new('Anna', @song2),
-      @guest3 = Guest.new('George', @song3),
-      @guest4 = Guest.new('Matt', @song4),
-      @guest5 = Guest.new('John', @song5),
-      @guest6 = Guest.new('Lucy', @song6)
-    ]
+      @guest1 = Guest.new('Liliana', @song1, 100)
+      @guest2 = Guest.new('Anna', @song2, 200)
+      @guest3 = Guest.new('George', @song3, 300)
+      @guest4 = Guest.new('Matt', @song4, 400)
+      @guest5 = Guest.new('John', @song5, 500)
+      @guest6 = Guest.new('Lucy', @song6, 10)
+
 
     @karaoke_bar = KaraokeBar.new('Sing City', 0, [@room_rock, @room_pop])
 
@@ -42,30 +41,30 @@ class TestKaraokeBar < MiniTest::Test
     assert_equal(20, @karaoke_bar.till)
   end
 
-  # def test_get_number_of_rooms
-  #   assert_equal(2, @karaoke_bar.rooms.count)
-  # end
-
-  # def test_add_room_to_rooms
-  #   @rooms.add_room(@room_rock)
-  #   assert_equal(1, @rooms.count)
-  # end
-
-  def test_add_guests_to_room
-    result = @karaoke_bar.add_group_to_room(@room_rock, @group_rock)
-
-    assert_equal(6, result)
+  def test_get_number_of_rooms
+    assert_equal(2, @karaoke_bar.rooms.count)
   end
 
-  # def test_add_guest_to_group
-  #   @KaraokeBar.add_guest_to_group(@guest1)
-  #   @KaraokeBar.add_guest_to_group(@guest2)
-  #   assert_equal(2, @group.count())
-  # end
+  def test_check_in__guest_can_afford
+    @karaoke_bar.check_in(@room_pop, @guest1, 20)
+    @karaoke_bar.check_in(@room_pop, @guest2, 20)
+    @karaoke_bar.check_in(@room_pop, @guest3, 20)
 
-  # def test_check_in__can_fit_the_room
-  #   assert_equal(true, @karaoke_bar.room_capacity())
-  # end
+    assert_equal(60, @karaoke_bar.till())
+    assert_equal(3, @room_pop.count_guests())
+    assert_equal(80, @guest1.wallet)
+  end
+
+  def test_check_in__guest_can_not_afford
+    @karaoke_bar.check_in(@room_pop, @guest1, 20)
+    @karaoke_bar.check_in(@room_pop, @guest2, 20)
+    @karaoke_bar.check_in(@room_pop, @guest6, 20)
+
+    assert_equal(60, @karaoke_bar.till())
+    assert_equal(3, @room_pop.count_guests())
+    assert_equal(80, @guest1.wallet)
+  end
+
 
 
 end
