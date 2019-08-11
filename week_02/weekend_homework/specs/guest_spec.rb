@@ -8,7 +8,7 @@ class TestGuest < MiniTest::Test
 
   def setup
     @song1 = Song.new('Living on a Prayer','Bon Jovi')
-    @guest1 = Guest.new('Liliana', @song1)
+    @guest1 = Guest.new('Liliana', @song1, 100)
 
   end
 
@@ -17,7 +17,15 @@ class TestGuest < MiniTest::Test
   end
 
   def test_get_favorite_songs
-    assert_equal('Living on a Prayer', @guest1.fav_songs.title)
+    assert_equal('Living on a Prayer', @guest1.fav_songs.title())
+  end
+
+  def test_get_wallet_amount
+    assert_equal(100, @guest1.wallet())
+  end
+
+  def test_pay_amount
+    assert_equal(80, @guest1.pay(20))
   end
 
 

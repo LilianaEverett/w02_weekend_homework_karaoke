@@ -11,9 +11,12 @@ class TestRoom < MiniTest::Test
     @song1 = Song.new('Living on a Prayer','Bon Jovi')
     @song2 = Song.new('Bohemian Rhapsody','Queen')
     @song3 = Song.new('Free Fallin', 'Tom Petty')
-    @room_rock = Room.new('Rock', 20)
-    @guest1 = Guest.new('Liliana', @song1),
+    @room_rock = Room.new('Rock', 4)
+    @guest1 = Guest.new('Liliana', @song1)
     @guest2 = Guest.new('Anna', @song2)
+    @guest3 = Guest.new('George', @song3)
+    @guest4 = Guest.new('Matt', @song1)
+    @guest5 = Guest.new('John', @song2)
 
   end
 
@@ -22,7 +25,7 @@ class TestRoom < MiniTest::Test
   end
 
   def test_get_maximum_capacity
-    assert_equal(20, @room_rock.max_cap())
+    assert_equal(4, @room_rock.guests_limit())
   end
 
   def test_get_playlist
@@ -32,11 +35,21 @@ class TestRoom < MiniTest::Test
     assert_equal(3, @room_rock.count_playlist())
   end
 
-  def test_add_guests_to_room
+  def test_add_guests_to_room__can
     @room_rock.add_guest(@guest2)
     @room_rock.add_guest(@guest1)
-
-    assert_equal(2, @room_rock.count_group())
+    assert_equal(2, @room_rock.count_guests())
   end
+
+  def test_add_guests_to_room__can_not
+    @room_rock.add_guest(@guest1)
+    @room_rock.add_guest(@guest2)
+    @room_rock.add_guest(@guest3)
+    @room_rock.add_guest(@guest4)
+    @room_rock.add_guest(@guest5)
+    assert_equal(4, @room_rock.count_guests())
+  end
+
+
 
 end

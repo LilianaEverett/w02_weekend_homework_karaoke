@@ -1,13 +1,13 @@
 class Room
 
-attr_reader :name, :max_cap
-attr_accessor :playlist, :group
+attr_reader :name, :guests_limit
+attr_accessor :playlist, :guests
 
-  def initialize(name, max_cap)
+  def initialize(name, guests_limit)
     @name = name
-    @max_cap = max_cap
+    @guests_limit = guests_limit
     @playlist = []
-    @group = []
+    @guests = []
   end
 
   def add_song(song)
@@ -19,11 +19,13 @@ attr_accessor :playlist, :group
   end
 
   def add_guest(guest)
-    @group << guest
+    if @guests.count < @guests_limit
+      @guests << guest
+    end  
   end
 
-  def count_group
-    return @group.count
+  def count_guests
+    return @guests.count
   end
 
 
