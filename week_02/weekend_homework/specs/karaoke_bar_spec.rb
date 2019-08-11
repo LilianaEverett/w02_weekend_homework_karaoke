@@ -17,15 +17,15 @@ class TestKaraokeBar < MiniTest::Test
     @song5 = Song.new('Push', 'Matchbox Twenty')
     @song6 = Song.new('Treasure', 'Bruno Mars')
 
-    @room_rock = Room.new('Rock', 20, 20),
+    @room_rock = Room.new('Rock', 20, 20)
     @room_pop = Room.new('Pop', 5, 20)
 
-      @guest1 = Guest.new('Liliana', @song1, 100)
-      @guest2 = Guest.new('Anna', @song2, 200)
-      @guest3 = Guest.new('George', @song3, 300)
-      @guest4 = Guest.new('Matt', @song4, 400)
-      @guest5 = Guest.new('John', @song5, 500)
-      @guest6 = Guest.new('Lucy', @song6, 10)
+    @guest1 = Guest.new('Liliana', @song1, 100)
+    @guest2 = Guest.new('Anna', @song2, 200)
+    @guest3 = Guest.new('George', @song3, 300)
+    @guest4 = Guest.new('Matt', @song4, 400)
+    @guest5 = Guest.new('John', @song5, 500)
+    @guest6 = Guest.new('Lucy', @song6, 10)
 
 
     @karaoke_bar = KaraokeBar.new('Sing City', 0, [@room_rock, @room_pop])
@@ -46,9 +46,9 @@ class TestKaraokeBar < MiniTest::Test
   end
 
   def test_check_in__guest_can_afford
-    @karaoke_bar.check_in(@room_pop, @guest1, 20)
-    @karaoke_bar.check_in(@room_pop, @guest2, 20)
-    @karaoke_bar.check_in(@room_pop, @guest3, 20)
+    @karaoke_bar.check_in(@room_pop, @guest1)
+    @karaoke_bar.check_in(@room_pop, @guest2)
+    @karaoke_bar.check_in(@room_pop, @guest3)
 
     assert_equal(60, @karaoke_bar.till())
     assert_equal(3, @room_pop.count_guests())
@@ -56,13 +56,23 @@ class TestKaraokeBar < MiniTest::Test
   end
 
   def test_check_in__guest_can_not_afford
-    @karaoke_bar.check_in(@room_pop, @guest1, 20)
-    @karaoke_bar.check_in(@room_pop, @guest2, 20)
-    @karaoke_bar.check_in(@room_pop, @guest6, 20)
+    @karaoke_bar.check_in(@room_pop, @guest1)
+    @karaoke_bar.check_in(@room_pop, @guest2)
+    @karaoke_bar.check_in(@room_pop, @guest6)
 
-    assert_equal(60, @karaoke_bar.till())
-    assert_equal(3, @room_pop.count_guests())
+    assert_equal(40, @karaoke_bar.till())
+    assert_equal(2, @room_pop.count_guests())
     assert_equal(80, @guest1.wallet)
+  end
+
+  def test_check_out
+    @karaoke_bar.check_in(@room_rock, @guest1)
+    @karaoke_bar.check_in(@room_rock, @guest2)
+    @karaoke_bar.check_in(@room_rock, @guest3)
+
+    @karaoke_bar.check_out(@room_rock, @guest1)
+
+    assert_equal(2, @room_rock.count_guests())
   end
 
 

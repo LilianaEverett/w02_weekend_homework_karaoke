@@ -29,6 +29,10 @@ attr_accessor :playlist, :guests
     return @guests.count
   end
 
+  def check_guest_in_room(guest)
+    @guests.include? guest
+  end
+
 
 
 end

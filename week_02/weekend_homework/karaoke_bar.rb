@@ -13,13 +13,21 @@ attr_accessor :name, :till, :rooms, :group
     @till += amount
   end
 
-  def check_in(room, guest, amount)
-    if @rooms.include?(room) || guest.wallet >= room.fee
+  def check_in(room, guest)
+    if @rooms.include?(room) && guest.wallet >= room.fee
       room.add_guest(guest)
+      add_money(room.fee)
+      guest.pay(room.fee)
     end
-    add_money(amount)
-    guest.pay(amount)
   end
+
+  def check_out(room, guest)
+    if @rooms.include?(room) && room.check_guest_in_room(guest)
+      room.guests.delete(guest)
+    end
+  end
+
+
 
 
 
